@@ -14,9 +14,22 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_not flash.empty?
   end
   
+  test "login with remembering" do
+    login_as(@user, remember_me: '1')
+    assert_equal cookies['remember_token'], assigns(:user).remember_token
+  end
+  
+   test "login without remembering" do
+    # Log in to set the cookie.
+    login_as(@user, remember_me: '1')
+    # Log in again and verify that the cookie is deleted.
+    login_as(@user, remember_me: '0')
+    assert_empty cookies['remember_token']
+  end
+  
   test 'valid login details' do
     get login_path
-    post login_path, params: { session: {email: @user.email, password: 'password' } }
+    post login_path, params: { session: {email: @user.email, password: 'password', remember_me: '0' } }
     assert_redirected_to @user
     follow_redirect!
     assert_template 'users/show'
@@ -25,13 +38,15 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_select 'a[href=?]', user_path(@user)
   end
   
-  test 'log out' do
+  test 'log user out' do
     get login_path
     post login_path, params: { session: {email: @user.email, password: 'password' } }
     follow_redirect!
     delete logout_path
     assert_not is_logged_in?
     assert_redirected_to root_path
+    # Simulate a user clicking logout in a second window.
+    delete logout_path
     follow_redirect!
     assert_select 'a[href=?]', login_path
     assert_select 'a[href=?]', logout_path, count: 0
