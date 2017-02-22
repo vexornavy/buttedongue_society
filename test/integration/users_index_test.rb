@@ -6,7 +6,12 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     @admin     = users(:michael)
     @non_admin = users(:archer)
   end
-
+  
+  test "redirected when not logged in" do
+    get users_path
+    assert_redirected_to login_path
+  end
+  
   test "index as admin including pagination and delete links" do
     login_as(@admin)
     get users_path

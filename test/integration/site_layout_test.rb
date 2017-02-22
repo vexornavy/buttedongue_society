@@ -21,12 +21,5 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", contact_path
     assert_select "a[href=?]", signup_path
   end
-  
-  test 'user index' do
-    get users_path
-    assert_redirected_to login_path
-    login_as(@user)
-    get users_path
-    assert_select "ul.users"
-  end
+
 end
