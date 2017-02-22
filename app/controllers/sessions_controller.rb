@@ -8,9 +8,9 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:session][:password])
       login @user
       params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
-      redirect_to @user
+      redirect_back @user
     else
-      flash.now[:danger] = 'Invalid login details!' # TODO: fix - persists through one page reload
+      flash.now[:danger] = 'Invalid login details!'
       render 'new' 
     end  
   end

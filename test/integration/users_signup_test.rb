@@ -14,6 +14,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_select 'div#error_explanation'
     assert_select 'div.field_with_errors'
     assert_select 'form[action="/signup"]'
+    assert_select 'div.gravatar_edit', count: 0
   end
   
   test "valid signup information" do
