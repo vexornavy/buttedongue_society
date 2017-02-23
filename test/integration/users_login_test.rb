@@ -4,6 +4,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   
   def setup
     @user = users(:michael)
+    @not_activated = users(:malory)
   end
   
   test 'invalid login details' do
@@ -11,6 +12,13 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_template 'sessions/new'
     post login_path, params: { session: {email: "", password: "" } }
     assert_template 'sessions/new'
+    assert_not flash.empty?
+  end
+  
+  test "login with unactivated account" do
+    login_as(@not_activated, remember_me: '1')
+    assert_not is_logged_in?
+    follow_redirect!
     assert_not flash.empty?
   end
   

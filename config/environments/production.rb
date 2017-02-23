@@ -57,10 +57,30 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "buttedongue_society_#{Rails.env}"
   config.action_mailer.perform_caching = false
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
-
+  # Config for email, which is currently disabled.
+  # Run:
+  # $ heroku addons:create sendgrid:starter
+  # $ heroku config:get SENDGRID_USERNAME
+  # $ heroku config:get SENDGRID_PASSWORD
+  config.action_mailer.raise_delivery_errors = false
+  # config.action_mailer.raise_delivery_errors = true
+  # config.action_mailer.delivery_method = :smtp
+  # host = '<your heroku app>.herokuapp.com'
+  # config.action_mailer.default_url_options = { host: host }
+  # ActionMailer::Base.smtp_settings = {
+  #   :address        => 'smtp.sendgrid.net',
+  #   :port           => '587',
+  #   :authentication => :plain,
+  #   :user_name      => ENV['SENDGRID_USERNAME'],
+  #   :password       => ENV['SENDGRID_PASSWORD'],
+  #   :domain         => 'heroku.com',
+  #   :enable_starttls_auto => true
+  # }
+  
+  # We don't presently have a way of sending email
+  config.action_mailer.delivery_method = :test
+  config.action_mailer.default_url_options = { host: buttes.com }
+  
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
