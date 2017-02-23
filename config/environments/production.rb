@@ -79,7 +79,7 @@ Rails.application.configure do
   
   # We don't presently have a way of sending email
   config.action_mailer.delivery_method = :test
-  config.action_mailer.default_url_options = { host: buttes.com }
+  config.action_mailer.default_url_options = { host: 'buttes.com' }
   
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
